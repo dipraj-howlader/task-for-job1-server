@@ -9,7 +9,6 @@ require('dotenv').config()
 
 $env:GOOGLE_APPLICATION_CREDENTIALS="./internsample1-firebase-adminsdk-ofepo-02f14ae094.json";
 
-console.log(require(GOOGLE_APPLICATION_CREDENTIALS))
 const serviceAccount = require(GOOGLE_APPLICATION_CREDENTIALS);
 
 admin.initializeApp({
@@ -25,8 +24,22 @@ app.get('/', (req, res) => {
     })
 
 app.get('/token' , (req, res) =>{
-    console.log(req.headers.authorization);
-    console.log("this working")
+    // console.log(req.headers.authorization);
+    const bearer  = req.headers.authorization
+  if(bearer && bearer.startsWith('Bearer ')){
+   const idToken = bearer.split(' ')[1]
+ 
+   admin.auth().verifyIdToken(idToken)
+  .then((decodedToken) => {
+    const uid = decodedToken.email;
+    console.log(uid)
+    // ...
+  })
+  .catch((error) => {
+    // Handle error
+  });
+  }
+    
 })
 
 app.listen(port);
