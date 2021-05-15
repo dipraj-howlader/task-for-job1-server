@@ -5,9 +5,12 @@ const ObjectID = require('mongodb').ObjectID;
 const cors = require('cors');
 const admin = require('firebase-admin');
 const bodyParser = require('body-parser');
+require('dotenv').config()
 
+$env:GOOGLE_APPLICATION_CREDENTIALS="./internsample1-firebase-adminsdk-ofepo-02f14ae094.json";
 
-const serviceAccount = require("./internsample1-firebase-adminsdk-ofepo-02f14ae094.json");
+console.log(require(GOOGLE_APPLICATION_CREDENTIALS))
+const serviceAccount = require(GOOGLE_APPLICATION_CREDENTIALS);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
